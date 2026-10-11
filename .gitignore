@@ -1,0 +1,13 @@
+# Archivos temporales y backups
+*.log
+*bak*
+
+# Archivos no relacionados con este proyecto
+leyes_exponentes.html
+notacion_cientifica.html
+
+# Dependencias futuras
+node_modules/
+dist/
+.DS_Store
+Thumbs.db
