@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Dominio Cycling Club">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8a19ff"/>
+      <stop offset="1" stop-color="#e600ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="#050506"/>
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#g)" stroke-width="2" opacity="0.6"/>
+  <text x="32" y="45" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="36" fill="url(#g)" text-anchor="middle">D</text>
+</svg>
