@@ -91,6 +91,27 @@ window.DOMINIO_DATA = {
     }
   ],
 
+  /* ---- Certificaciones -----------------------------------------------------
+     "caption" es el título visible. Los archivos .pdf se abren en otra pestaña.
+  --------------------------------------------------------------------------- */
+  certifications: [
+    { caption: 'Certificación 1', photo: 'img/certificacion1.png' },
+    { caption: 'Certificación 2', photo: 'img/certificacion2.png' },
+    { caption: 'Certificación 3', photo: 'img/certificacion3.png' },
+    { caption: 'Certificación 4', photo: 'img/certificacion4.png' },
+    { caption: 'Certificación 5', photo: 'img/certificacion5.png' },
+    { caption: 'Certificación 6', photo: 'img/certificacion6.png' },
+    { caption: 'Certificación 7', photo: 'img/certificacion7.png' },
+    { caption: 'Certificación 8', photo: 'img/Certificacion8.jpeg' },
+    { caption: 'Certificación 9', photo: 'img/Certificacion9.jpeg' },
+    { caption: 'Certificación 10', photo: 'img/Certificacion10.jpeg' },
+    { caption: 'Certificación 11', photo: 'img/Certificacion11.jpeg' },
+    { caption: 'Certificación 12', photo: 'img/Certificacion12.jpg' },
+    { caption: 'Certificación 13', photo: 'img/Certificacion13.jpg' },
+    { caption: 'Certificación 14', photo: 'img/Certificacion14.jpg' },
+    { caption: 'Certificación 15', photo: 'img/Certificacion15.jpg' }
+  ],
+
   /* ---- Instalaciones ---------------------------------------------------
      Agrega tantos elementos como quieras: la cuadrícula se adapta sola.
   ---------------------------------------------------------------------- */

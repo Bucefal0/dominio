@@ -211,6 +211,37 @@
   /* ---- Galería + Lightbox ----------------------------------------------------- */
   var galleryData = [];
   var currentIndex = 0;
+  var activeList = [];
+
+  function renderCertifications(container, list) {
+    if (!container) return;
+    container.innerHTML = '';
+    var images = (list || []).filter(function (c) { return c.photo; });
+    (list || []).forEach(function (item) {
+      var el;
+      if (item.pdf) {
+        el = document.createElement('a');
+        el.href = item.pdf;
+        el.target = '_blank';
+        el.rel = 'noopener noreferrer';
+        el.setAttribute('aria-label', 'Abrir PDF: ' + item.caption);
+        el.innerHTML = '<span class="cert-pdf">PDF</span>';
+      } else {
+        el = document.createElement('button');
+        el.type = 'button';
+        el.setAttribute('aria-haspopup', 'dialog');
+        el.setAttribute('aria-label', 'Ampliar: ' + item.caption);
+        el.appendChild(createMediaSlot({ photo: item.photo, alt: item.caption, caption: item.caption }));
+        el.addEventListener('click', function () { openLightbox(images.indexOf(item), images); });
+      }
+      el.classList.add('cert-item');
+      var cap = document.createElement('span');
+      cap.className = 'gallery-caption';
+      cap.textContent = item.caption || '';
+      el.appendChild(cap);
+      container.appendChild(el);
+    });
+  }
   var lastFocusedEl = null;
   var lightboxEls = {};
 
@@ -237,16 +268,17 @@
   }
 
   function showLightboxItem() {
-    var item = galleryData[currentIndex];
+    var item = activeList[currentIndex];
     if (!item || !lightboxEls.media) return;
     lightboxEls.media.innerHTML = '';
     lightboxEls.media.appendChild(createMediaSlot({ photo: item.photo, alt: item.caption, caption: item.caption }));
     lightboxEls.caption.textContent = item.caption || '';
-    lightboxEls.counter.textContent = (currentIndex + 1) + ' / ' + galleryData.length;
+    lightboxEls.counter.textContent = (currentIndex + 1) + ' / ' + activeList.length;
   }
 
-  function openLightbox(index) {
-    if (!lightboxEls.root || galleryData.length === 0) return;
+  function openLightbox(index, list) {
+    activeList = list || galleryData;
+    if (!lightboxEls.root || activeList.length === 0) return;
     lastFocusedEl = document.activeElement;
     currentIndex = index;
     showLightboxItem();
@@ -269,11 +301,11 @@
   }
 
   function showNextItem() {
-    currentIndex = (currentIndex + 1) % galleryData.length;
+    currentIndex = (currentIndex + 1) % activeList.length;
     showLightboxItem();
   }
   function showPrevItem() {
-    currentIndex = (currentIndex - 1 + galleryData.length) % galleryData.length;
+    currentIndex = (currentIndex - 1 + activeList.length) % activeList.length;
     showLightboxItem();
   }
 
@@ -563,6 +595,7 @@
     renderFacilities(document.getElementById('facilities-grid'), data.facilities);
     renderSchedule(document.getElementById('schedule-content'), data.schedule, data.contact);
     renderInstructors(document.getElementById('instructors-grid'), data.instructors);
+    renderCertifications(document.getElementById('certifications-grid'), data.certifications);
     renderGallery(document.getElementById('gallery-grid'), data.gallery);
     renderContact(data);
     injectStructuredData(data);
