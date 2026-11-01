@@ -212,6 +212,8 @@
   var galleryData = [];
   var currentIndex = 0;
   var activeList = [];
+  var lastFocusedEl = null;
+  var lightboxEls = {};
 
   function renderCertifications(container, list) {
     if (!container) return;
@@ -242,8 +244,6 @@
       container.appendChild(el);
     });
   }
-  var lastFocusedEl = null;
-  var lightboxEls = {};
 
   function renderGallery(container, list) {
     if (!container) return;
@@ -265,6 +265,169 @@
       btn.addEventListener('click', function () { openLightbox(index); });
       container.appendChild(btn);
     });
+  }
+
+  /* ---- Eventos (línea de tiempo) ------------------------------------------- */
+  function renderEvents(container, events, contact) {
+    if (!container) return;
+    container.innerHTML = '';
+
+    (events || []).forEach(function (ev) {
+      var photos = Array.isArray(ev.photos) ? ev.photos : [];
+      // El lightbox espera objetos { photo, caption }, no rutas sueltas.
+      var lightboxList = photos.map(function (src) {
+        return { photo: src, caption: ev.title || '' };
+      });
+      var item = document.createElement('article');
+      item.className = 'timeline-item';
+      if (ev.id) item.id = 'evento-' + ev.id;
+
+      var dot = document.createElement('span');
+      dot.className = 'timeline-dot';
+      dot.setAttribute('aria-hidden', 'true');
+      item.appendChild(dot);
+
+      var card = document.createElement('div');
+      card.className = 'timeline-card';
+
+      var media = document.createElement('div');
+      media.className = 'timeline-media';
+      var img = document.createElement('img');
+      img.className = 'timeline-cover';
+      img.src = ev.cover || '';
+      img.alt = ev.title || 'Evento de Dominio Cycling Club';
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      media.appendChild(img);
+      if (ev.tag) {
+        var chip = document.createElement('span');
+        chip.className = 'timeline-chip';
+        chip.textContent = ev.tag;
+        media.appendChild(chip);
+      }
+      card.appendChild(media);
+
+      var body = document.createElement('div');
+      body.className = 'timeline-body';
+
+      var meta = document.createElement('p');
+      meta.className = 'timeline-meta';
+      meta.innerHTML =
+        (ev.date ? '<span class="timeline-date">' + esc(ev.date) + '</span>' : '') +
+        (ev.tag ? '<span class="timeline-tag">' + esc(ev.tag) + '</span>' : '');
+      body.appendChild(meta);
+
+      var title = document.createElement('h3');
+      title.className = 'timeline-title';
+      title.textContent = ev.title || 'Evento Dominio';
+      body.appendChild(title);
+
+      if (ev.excerpt) {
+        var excerpt = document.createElement('p');
+        excerpt.className = 'timeline-excerpt';
+        excerpt.textContent = ev.excerpt;
+        body.appendChild(excerpt);
+      }
+
+      var actions = document.createElement('div');
+      actions.className = 'timeline-actions';
+
+      if (photos.length > 0) {
+        var photosBtn = document.createElement('button');
+        photosBtn.type = 'button';
+        photosBtn.className = 'btn btn-primary timeline-btn';
+        photosBtn.setAttribute('aria-haspopup', 'dialog');
+        photosBtn.textContent = 'Ver fotos (' + photos.length + ')';
+        photosBtn.addEventListener('click', function () { openLightbox(0, lightboxList); });
+        actions.appendChild(photosBtn);
+      }
+
+      if (actions.childElementCount > 0) body.appendChild(actions);
+
+      var videos = Array.isArray(ev.videos) ? ev.videos : (ev.video ? [{ src: ev.video }] : []);
+      if (videos.length > 0) {
+        var videosSection = document.createElement('section');
+        videosSection.className = 'timeline-videos';
+        var videosTitle = document.createElement('h4');
+        videosTitle.className = 'timeline-videos-title';
+        videosTitle.textContent = 'Videos del evento';
+        videosSection.appendChild(videosTitle);
+
+        var videoGrid = document.createElement('div');
+        videoGrid.className = 'timeline-video-grid';
+        videos.forEach(function (videoItem, index) {
+          var videoData = typeof videoItem === 'string' ? { src: videoItem } : videoItem;
+          var videoTitle = videoData.title || ('Video ' + (index + 1));
+          var videoCard = document.createElement('article');
+          videoCard.className = 'timeline-video-card';
+
+          var videoHeading = document.createElement('h5');
+          videoHeading.className = 'timeline-video-title';
+          videoHeading.textContent = videoTitle;
+          videoCard.appendChild(videoHeading);
+
+          if (videoData.youtubeEmbed && videoData.youtubeUrl) {
+            var embed = document.createElement('div');
+            embed.className = 'timeline-youtube-embed';
+            var frame = document.createElement('iframe');
+            frame.src = videoData.youtubeEmbed;
+            frame.title = videoTitle;
+            frame.loading = 'lazy';
+            frame.referrerPolicy = 'origin';
+            frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+            frame.allowFullscreen = true;
+            embed.appendChild(frame);
+            videoCard.appendChild(embed);
+
+            var youtubeLink = document.createElement('a');
+            youtubeLink.className = 'timeline-youtube-link';
+            youtubeLink.href = videoData.youtubeUrl;
+            youtubeLink.target = '_blank';
+            youtubeLink.rel = 'noopener noreferrer';
+            youtubeLink.textContent = 'Abrir en YouTube';
+            videoCard.appendChild(youtubeLink);
+          } else {
+            var video = document.createElement('video');
+            video.className = 'timeline-video-el';
+            video.controls = true;
+            video.playsInline = true;
+            video.preload = 'none';
+            video.setAttribute('aria-label', 'Video del evento: ' + videoTitle);
+            if (videoData.poster || ev.cover) video.poster = videoData.poster || ev.cover;
+
+            var source = document.createElement('source');
+            source.src = videoData.src;
+            source.type = 'video/mp4';
+            video.appendChild(source);
+            video.addEventListener('error', function () {
+              video.hidden = true;
+              var note = document.createElement('p');
+              note.className = 'timeline-video-error';
+              note.textContent = 'No pudimos cargar este video en el navegador.';
+              videoCard.appendChild(note);
+            });
+            videoCard.appendChild(video);
+          }
+          videoGrid.appendChild(videoCard);
+        });
+
+        videosSection.appendChild(videoGrid);
+        body.appendChild(videosSection);
+      }
+
+      card.appendChild(body);
+      item.appendChild(card);
+      container.appendChild(item);
+    });
+
+    var waDigits = onlyDigits(contact && contact.whatsapp);
+    var cta = document.createElement('div');
+    cta.className = 'timeline-cta';
+    cta.innerHTML =
+      '<p class="timeline-cta-text">¿Te apuntas al próximo evento?</p>' +
+      '<a class="btn btn-primary" href="' + (waDigits ? 'https://wa.me/' + waDigits : '#contacto') + '"' +
+      (waDigits ? ' target="_blank" rel="noopener noreferrer"' : '') + '>Escríbenos por WhatsApp</a>';
+    container.appendChild(cta);
   }
 
   function showLightboxItem() {
@@ -432,17 +595,105 @@
       });
     }
 
+    var mapCoords = contact.mapCoords || '';
     var mapQuery = contact.mapQuery || brand.locationFull || brand.locationShort;
     var mapContainer = document.getElementById('contact-map');
     if (mapContainer) {
-      if (mapQuery) {
+      var embedSrc = mapCoords || mapQuery
+        ? 'https://www.google.com/maps?q=' + encodeURIComponent(mapCoords || mapQuery) + '&z=17&output=embed'
+        : '';
+
+      if (embedSrc) {
+        mapContainer.innerHTML = '';
+
+        var card = document.createElement('div');
+        card.className = 'place-card';
+
+        if (Array.isArray(contact.photos) && contact.photos.length > 0) {
+          var strip = document.createElement('div');
+          strip.className = 'place-photos';
+          contact.photos.slice(0, 3).forEach(function (p) {
+            var img = document.createElement('img');
+            img.src = p.src;
+            img.alt = p.alt || 'Dominio Cycling Club';
+            img.loading = 'lazy';
+            img.decoding = 'async';
+            strip.appendChild(img);
+          });
+          card.appendChild(strip);
+        }
+
+        var body = document.createElement('div');
+        body.className = 'place-body';
+
+        var name = document.createElement('p');
+        name.className = 'place-name';
+        name.textContent = (brand.name || '') + (brand.subname ? ' ' + brand.subname : '');
+        body.appendChild(name);
+
+        var cat = document.createElement('p');
+        cat.className = 'place-cat';
+        cat.textContent = 'Gimnasio · Centro oficial de Spinning®';
+        body.appendChild(cat);
+
+        var rows = [
+          { icon: 'icon-pin', text: contact.address, href: contact.mapUrl, external: true },
+          { icon: 'icon-clock', text: contact.hoursNote || '', href: '' },
+          { icon: 'icon-link', text: 'dominio.work', href: 'https://dominio.work', external: true },
+          { icon: 'icon-map', text: contact.plusCode || '', href: '' }
+        ];
+
+        rows.forEach(function (r) {
+          if (!r.text) return;
+          var row = document.createElement(r.href ? 'a' : 'div');
+          row.className = 'place-row';
+          if (r.href) {
+            row.setAttribute('href', r.href);
+            if (r.external) {
+              row.setAttribute('target', '_blank');
+              row.setAttribute('rel', 'noopener noreferrer');
+            }
+          }
+          row.innerHTML =
+            '<svg class="place-row-icon" aria-hidden="true"><use href="#' + r.icon + '"></use></svg>' +
+            '<span>' + esc(r.text) + '</span>';
+          body.appendChild(row);
+        });
+
+        var actions = document.createElement('div');
+        actions.className = 'place-actions';
+
+        var dirBtn = document.createElement('a');
+        dirBtn.className = 'btn btn-primary place-btn';
+        dirBtn.href = contact.mapUrl || ('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(mapCoords));
+        dirBtn.target = '_blank';
+        dirBtn.rel = 'noopener noreferrer';
+        dirBtn.textContent = 'Indicaciones';
+        actions.appendChild(dirBtn);
+
+        var mapBtn = document.createElement('a');
+        mapBtn.className = 'btn btn-outline place-btn';
+        mapBtn.href = contact.mapUrl || ('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(mapCoords));
+        mapBtn.target = '_blank';
+        mapBtn.rel = 'noopener noreferrer';
+        mapBtn.textContent = 'Ver en Google Maps';
+        actions.appendChild(mapBtn);
+
+        body.appendChild(actions);
+        card.appendChild(body);
+
+        var frame = document.createElement('div');
+        frame.className = 'place-map';
         var iframe = document.createElement('iframe');
-        iframe.src = 'https://www.google.com/maps?q=' + encodeURIComponent(mapQuery) + '&output=embed';
+        iframe.src = embedSrc;
         iframe.loading = 'lazy';
         iframe.referrerPolicy = 'no-referrer-when-downgrade';
+        iframe.setAttribute('allowfullscreen', '');
         iframe.title = 'Ubicación de Dominio Cycling Club en el mapa';
-        mapContainer.innerHTML = '';
-        mapContainer.appendChild(iframe);
+        frame.appendChild(iframe);
+
+        mapContainer.appendChild(card);
+        mapContainer.appendChild(frame);
       } else {
         mapContainer.innerHTML =
           '<div class="contact-map-fallback">' +
@@ -462,11 +713,13 @@
       }
     }
 
-    var mapHref = mapQuery ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(mapQuery) : '#contacto';
+    var mapHref = contact.mapUrl
+      || (mapCoords ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(mapCoords) : '')
+      || (mapQuery ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(mapQuery) : '#contacto');
     document.querySelectorAll('[data-map-link]').forEach(function (a) {
       a.setAttribute('href', mapHref);
-      a.removeAttribute('target');
-      a.removeAttribute('rel');
+      a.setAttribute('target', '_blank');
+      a.setAttribute('rel', 'noopener noreferrer');
     });
   }
 
@@ -597,6 +850,7 @@
     renderInstructors(document.getElementById('instructors-grid'), data.instructors);
     renderCertifications(document.getElementById('certifications-grid'), data.certifications);
     renderGallery(document.getElementById('gallery-grid'), data.gallery);
+    renderEvents(document.getElementById('events-timeline'), data.events, data.contact);
     renderContact(data);
     injectStructuredData(data);
     setFooterYear();

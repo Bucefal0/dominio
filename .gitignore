@@ -11,3 +11,6 @@ node_modules/
 dist/
 .DS_Store
 Thumbs.db
+
+# Originales de WhatsApp: las versiones optimizadas viven en img/eventos/
+img/Halloween/

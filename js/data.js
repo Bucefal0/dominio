@@ -51,16 +51,30 @@ window.DOMINIO_DATA = {
      ni símbolos. Ejemplo: "526251234567".
   ------------------------------------------------------------------------- */
   contact: {
-    address: 'Calle 18 1435, Centro, Cuauhtémoc, Chihuahua, C.P. 31500, México',
+    address: 'Calle 18 Altos 1435, Zona Centro, Cuauhtémoc, Chihuahua, C.P. 31500, México',
     phone: '',
     whatsapp: '526251037144',
     email: 'contacto@dominio.work',
     facebook: '',
     instagram: '',
-    // Se usa para el mapa y el botón "Cómo llegar" mientras no haya
-    // una dirección exacta. Cuando tengas la dirección completa,
-    // reemplázala aquí para mayor precisión.
-    mapQuery: '94WJ+XF Cuauhtémoc, Chihuahua'
+    // --- Ubicación en Google Maps ---------------------------------------
+    // "placeId" identifica la ficha "Dominio Cycling" en Google Maps.
+    placeId: 'ChIJScGzOAAI4YARcm_2lW5k3L0',
+    // Enlace corto oficial para el botón "Cómo llegar".
+    mapUrl: 'https://maps.app.goo.gl/grWXj78Rjm6tjLYr5',
+    // Coordenadas exactas de la ficha de Google Business.
+    mapCoords: '28.3973865,-106.8686228',
+    // Plus Code que muestra Google Maps en la ficha.
+    plusCode: '94WJ+XH Cuauhtémoc, Chihuahua',
+    // Horario mostrado en la ficha (texto libre).
+    hoursNote: 'Abierto · Cierra a las 10 p.m.',
+    // Fotos del lugar (se muestran en la ficha junto al mapa).
+    // Coloca los archivos en /img/lugar/ y escribe su ruta aquí.
+    photos: [
+      { src: 'img/team/promo1-actualizada.jpg', alt: 'Fachada de Dominio Cycling Club' },
+      { src: 'img/team/Equipo.jpg', alt: 'Equipo de Dominio Cycling Club' },
+      { src: 'img/team/equipo2.jpg', alt: 'Comunidad de Dominio Cycling Club' }
+    ]
   },
 
   /* ---- Horarios ------------------------------------------------------------
@@ -95,13 +109,13 @@ window.DOMINIO_DATA = {
      "caption" es el título visible. Los archivos .pdf se abren en otra pestaña.
   --------------------------------------------------------------------------- */
   certifications: [
-    { caption: 'Certificación 1', photo: 'img/certificacion1.png' },
-    { caption: 'Certificación 2', photo: 'img/certificacion2.png' },
-    { caption: 'Certificación 3', photo: 'img/certificacion3.png' },
-    { caption: 'Certificación 4', photo: 'img/certificacion4.png' },
-    { caption: 'Certificación 5', photo: 'img/certificacion5.png' },
-    { caption: 'Certificación 6', photo: 'img/certificacion6.png' },
-    { caption: 'Certificación 7', photo: 'img/certificacion7.png' },
+    { caption: 'Certificación 1', photo: 'img/certificacion1.jpg' },
+    { caption: 'Certificación 2', photo: 'img/certificacion2.jpg' },
+    { caption: 'Certificación 3', photo: 'img/certificacion3.jpg' },
+    { caption: 'Certificación 4', photo: 'img/certificacion4.jpg' },
+    { caption: 'Certificación 5', photo: 'img/certificacion5.jpg' },
+    { caption: 'Certificación 6', photo: 'img/certificacion6.jpg' },
+    { caption: 'Certificación 7', photo: 'img/certificacion7.jpg' },
     { caption: 'Certificación 8', photo: 'img/Certificacion8.jpeg' },
     { caption: 'Certificación 9', photo: 'img/Certificacion9.jpeg' },
     { caption: 'Certificación 10', photo: 'img/Certificacion10.jpeg' },
@@ -150,5 +164,84 @@ window.DOMINIO_DATA = {
     { caption: 'Vive la montaña', photo: 'img/team/promo3.jpg' },
     { caption: 'Vive la ruta', photo: 'img/team/promo4.jpg' },
     { caption: 'Entrenamos con propósito', photo: 'img/team/promo5.jpg' }
+  ],
+
+  /* ---- Eventos ---------------------------------------------------------------
+     Un objeto por evento, en orden del más reciente al más antiguo.
+     "photos" alimenta la galería del evento (se abre en el lightbox del
+     sitio) y "videos" (opcional) se muestran en una sección independiente.
+     "date" es texto libre para mostrar en la línea de tiempo.
+  --------------------------------------------------------------------------- */
+  events: [
+    {
+      id: 'halloween-ride-2026',
+      title: 'Halloween Ride 2026',
+      date: '24 · OCT · 2026',
+      tag: 'Clase especial',
+      cover: 'img/eventos/halloween-2026/Portada.jpg',
+      excerpt: 'La clase más terrorífica del año: el salón se vistió de Halloween, los alumnos llegaron disfrazados y la energía subió con cada pedalada.',
+      videos: [
+        {
+          title: '23 de octubre · 23:26',
+          youtubeEmbed: 'https://www.youtube.com/embed/HVl0ELUAg4Q',
+          youtubeUrl: 'https://youtube.com/shorts/HVl0ELUAg4Q'
+        },
+        { title: '24 de octubre · 09:33', src: 'img/eventos/halloween-2026/videos/video-02.mp4' },
+        { title: '24 de octubre · 09:47', src: 'img/eventos/halloween-2026/videos/video-03.mp4' },
+        { title: '31 de octubre · toma 1', src: 'img/eventos/halloween-2026/videos/video-04.mp4' },
+        { title: '31 de octubre · toma 2', src: 'img/eventos/halloween-2026/videos/video-05.mp4' }
+      ],
+      photos: [
+        'img/eventos/halloween-2026/fotos/halloween-alumna-dominio-diablita-garras.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-antifaz-calavera-cuernos.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-bufon-siniestro-brazos-abiertos.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-bufon-siniestro-pose-senala.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-catrina-velo-rosa-cuerpo-completo.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-catrina-velo-rosa-pose-manos.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-ciclista-bandana-calabaza.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-ciclista-gato-negro.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-ciclista-pulgar-arriba.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-clase-nocturna-grupo-spinning.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-disfraz-angel-calabaza.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-disfraz-bufon-diabolico.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-disfraz-caperucita-pose.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-disfraz-catrina-mexicana.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-disfraz-diablita-spinning.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-disfraz-doctor-peste-y-arana.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-disfraz-esqueleto-guantes-huesos-1.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-disfraz-esqueleto-guantes-huesos-2.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-disfraz-hombre-lobo-capa-roja.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-disfraz-la-purga-mascara-led-2.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-disfraz-pato-lucas.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-disfraz-sally-jack-skellington-cuerpo.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-disfraz-sally-pose-zombi.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-disfraz-viuda-negra-capa-tul.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-disfraz-viuda-negra-manos-juntas.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-grupo-disfraces-1.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-grupo-disfraces-2.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-grupo-disfraces-3.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-hombre-lobo-capa-roja-garras-2.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-lentes-neon-monstruo-1.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-lentes-neon-monstruo-2.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-maquillaje-sally-jack-skellington.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-mascara-zombie-primer-plano.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-nina-disfraz-sangriento-pose.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-pareja-doctor-peste-broma-baculo.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-pareja-doctor-peste-falda-roja-1.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-pareja-doctor-peste-falda-roja-2.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-pareja-maquillaje-cicatriz.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-pareja-payasos-accion-movimiento.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-pareja-payasos-ensangrentados-cuerpo-entero.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-pareja-payasos-sonriendo.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-pareja-viuda-negra-mascara-neon-1.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-pareja-viuda-negra-mascara-neon-2.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-payasa-muneca-diabolica.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-poster-clase-medianoche-catrina.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-convivio-alumnas-comiendo-1.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-convivio-comida-taquitos.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-convivio-comunidad-sala.jpg',
+        'img/eventos/halloween-2026/fotos/halloween-pastel-celebracion-socias.jpg'
+      ]
+    }
   ]
 };
