@@ -948,23 +948,39 @@ section[id]{ scroll-margin-top:var(--header-h); }
     opacity:.75;
   }
 }
-/* En celular las flechas van debajo de la foto para no taparla */
-@media (max-width:639px){
-  .lightbox-dialog{
-    display:grid;
-    grid-template-columns:auto minmax(0, 1fr) auto;
-    grid-template-areas:"media media media" "prev caption next" "prev counter next";
-    align-items:center;
-    column-gap:.75rem;
-  }
-  #lightbox-media{ grid-area:media; }
-  .lightbox-caption{ grid-area:caption; }
-  .lightbox-counter{ grid-area:counter; }
-  .lightbox-prev, .lightbox-next{ position:static; transform:none; margin-top:.9rem; }
-  .lightbox-prev{ grid-area:prev; }
-  .lightbox-next{ grid-area:next; }
-}
+.lightbox-close-label{ display:none; }
 
+/* En celular los controles van fijos abajo (no se mueven con el tamaño de la foto) y tocar el fondo no cierra */
+@media (max-width:639px){
+  .lightbox-backdrop{ pointer-events:none; }
+  .lightbox-dialog .media-slot,
+  .lightbox-dialog .media-slot img{ max-height:calc(100vh - 14rem); max-height:calc(100dvh - 14rem); }
+  .lightbox-prev, .lightbox-next, .lightbox-close{
+    position:fixed;
+    top:auto;
+    bottom:max(1rem, env(safe-area-inset-bottom));
+    transform:none;
+    z-index:3;
+  }
+  .lightbox-prev{ left:1rem; }
+  .lightbox-next{ right:1rem; }
+  .lightbox-close{
+    left:50%;
+    right:auto;
+    transform:translateX(-50%);
+    width:auto;
+    height:52px;
+    padding:0 1.3rem;
+    gap:.5rem;
+    border-radius:999px;
+    background:rgba(5,5,6,.72);
+    border-color:rgba(255,255,255,.4);
+    font-weight:600;
+    font-size:.95rem;
+  }
+  .lightbox-close svg{ width:18px; height:18px; }
+  .lightbox-close-label{ display:inline; }
+}
 /* ---------------------------------------------------------------------------
    16B. EVENTOS (LÍNEA DE TIEMPO)
    --------------------------------------------------------------------------- */
