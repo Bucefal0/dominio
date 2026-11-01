@@ -920,7 +920,7 @@ section[id]{ scroll-margin-top:var(--header-h); }
   border-color:var(--border-strong);
 }
 
-.lightbox-close, .lightbox-prev, .lightbox-next{ position:absolute; }
+.lightbox-close, .lightbox-prev, .lightbox-next{ position:absolute; z-index:2; }
 .lightbox-close{ top:-.5rem; right:-.5rem; }
 @media (min-width:640px){ .lightbox-close{ top:-1.4rem; right:-1.4rem; } }
 .lightbox-prev{ left:.5rem; top:50%; transform:translateY(-50%); }
@@ -934,6 +934,20 @@ section[id]{ scroll-margin-top:var(--header-h); }
 .lightbox-prev:hover, .lightbox-next:hover{ background:rgba(176,38,255,.55); }
 #lightbox-media{ touch-action:pan-y; }
 
+.lightbox-hint{ display:none; }
+@media (min-width:640px) and (hover:hover){
+  .lightbox-prev, .lightbox-next{ width:60px; height:60px; }
+  .lightbox-prev svg, .lightbox-next svg{ width:28px; height:28px; }
+  .lightbox-hint{
+    display:block;
+    text-align:center;
+    margin-top:.5rem;
+    color:var(--muted);
+    font-size:.72rem;
+    letter-spacing:.04em;
+    opacity:.75;
+  }
+}
 /* En celular las flechas van debajo de la foto para no taparla */
 @media (max-width:639px){
   .lightbox-dialog{
