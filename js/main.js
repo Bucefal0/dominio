@@ -437,6 +437,14 @@
     lightboxEls.media.appendChild(createMediaSlot({ photo: item.photo, alt: item.caption, caption: item.caption }));
     lightboxEls.caption.textContent = item.caption || '';
     lightboxEls.counter.textContent = (currentIndex + 1) + ' / ' + activeList.length;
+    preloadNeighbors();
+  }
+
+  function preloadNeighbors() {
+    [1, -1].forEach(function (step) {
+      var neighbor = activeList[(currentIndex + step + activeList.length) % activeList.length];
+      if (neighbor && neighbor.photo) new Image().src = neighbor.photo;
+    });
   }
 
   function openLightbox(index, list) {
@@ -510,6 +518,22 @@
     var nextBtn = document.getElementById('lightbox-next');
     if (prevBtn) prevBtn.addEventListener('click', showPrevItem);
     if (nextBtn) nextBtn.addEventListener('click', showNextItem);
+
+    var touchStartX = 0;
+    var touchStartY = 0;
+    var swipeArea = lightboxEls.root.querySelector('.lightbox-dialog');
+    if (swipeArea) {
+      swipeArea.addEventListener('touchstart', function (e) {
+        touchStartX = e.changedTouches[0].clientX;
+        touchStartY = e.changedTouches[0].clientY;
+      }, { passive: true });
+      swipeArea.addEventListener('touchend', function (e) {
+        var dx = e.changedTouches[0].clientX - touchStartX;
+        var dy = e.changedTouches[0].clientY - touchStartY;
+        if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+        if (dx < 0) showNextItem(); else showPrevItem();
+      }, { passive: true });
+    }
   }
 
   /* ---- Contacto --------------------------------------------------------------- */

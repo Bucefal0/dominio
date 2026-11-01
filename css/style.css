@@ -925,6 +925,31 @@ section[id]{ scroll-margin-top:var(--header-h); }
 @media (min-width:640px){ .lightbox-close{ top:-1.4rem; right:-1.4rem; } }
 .lightbox-prev{ left:.5rem; top:50%; transform:translateY(-50%); }
 .lightbox-next{ right:.5rem; top:50%; transform:translateY(-50%); }
+.lightbox-prev, .lightbox-next{
+  width:52px; height:52px;
+  background:rgba(5,5,6,.72);
+  border-color:rgba(255,255,255,.4);
+}
+.lightbox-prev svg, .lightbox-next svg{ width:24px; height:24px; }
+.lightbox-prev:hover, .lightbox-next:hover{ background:rgba(176,38,255,.55); }
+#lightbox-media{ touch-action:pan-y; }
+
+/* En celular las flechas van debajo de la foto para no taparla */
+@media (max-width:639px){
+  .lightbox-dialog{
+    display:grid;
+    grid-template-columns:auto minmax(0, 1fr) auto;
+    grid-template-areas:"media media media" "prev caption next" "prev counter next";
+    align-items:center;
+    column-gap:.75rem;
+  }
+  #lightbox-media{ grid-area:media; }
+  .lightbox-caption{ grid-area:caption; }
+  .lightbox-counter{ grid-area:counter; }
+  .lightbox-prev, .lightbox-next{ position:static; transform:none; margin-top:.9rem; }
+  .lightbox-prev{ grid-area:prev; }
+  .lightbox-next{ grid-area:next; }
+}
 
 /* ---------------------------------------------------------------------------
    16B. EVENTOS (LÍNEA DE TIEMPO)
