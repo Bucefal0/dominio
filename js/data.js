@@ -186,7 +186,11 @@ window.DOMINIO_DATA = {
           youtubeEmbed: 'https://www.youtube.com/embed/HVl0ELUAg4Q',
           youtubeUrl: 'https://youtube.com/shorts/HVl0ELUAg4Q'
         },
-        { title: '24 de octubre · 09:33', src: 'img/eventos/halloween-2026/videos/video-02.mp4' },
+        {
+          title: '24 de octubre · 09:33',
+          youtubeEmbed: 'https://www.youtube.com/embed/DKa9eHsVXTM',
+          youtubeUrl: 'https://youtube.com/shorts/DKa9eHsVXTM'
+        },
         { title: '24 de octubre · 09:47', src: 'img/eventos/halloween-2026/videos/video-03.mp4' },
         { title: '31 de octubre · toma 1', src: 'img/eventos/halloween-2026/videos/video-04.mp4' },
         { title: '31 de octubre · toma 2', src: 'img/eventos/halloween-2026/videos/video-05.mp4' }
