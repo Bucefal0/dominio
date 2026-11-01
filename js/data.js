@@ -201,7 +201,11 @@ window.DOMINIO_DATA = {
           youtubeEmbed: 'https://www.youtube.com/embed/wGDtoKdW0Zg',
           youtubeUrl: 'https://youtube.com/shorts/wGDtoKdW0Zg'
         },
-        { title: '31 de octubre · toma 2', src: 'img/eventos/halloween-2026/videos/video-05.mp4' }
+        {
+          title: '31 de octubre · toma 2',
+          youtubeEmbed: 'https://www.youtube.com/embed/2MzmQtgr5Js',
+          youtubeUrl: 'https://youtube.com/shorts/2MzmQtgr5Js'
+        }
       ],
       photos: [
         'img/eventos/halloween-2026/fotos/halloween-alumna-dominio-diablita-garras.jpg',
